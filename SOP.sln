@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOP_ETOLibrary", "SOP_ETOLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOP_Administration", "SOP_Administration\SOP_Administration.csproj", "{12A0DC33-1847-4FC8-A279-7B41441E015E}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SOP_DB_Project", "..\SOP_DB_Project\SOP_DB_Project.sqlproj", "{F70515D1-B419-4FAE-8D3D-11C48796A118}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SOP_DB_Project", "SOP_DB_Project\SOP_DB_Project.sqlproj", "{F70515D1-B419-4FAE-8D3D-11C48796A118}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
