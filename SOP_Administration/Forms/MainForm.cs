@@ -11,7 +11,6 @@ namespace SOP_Administration
         {
             InitializeComponent();
             HttpHandler handler = new HttpHandler();
-            RefreshData();
         }
 
         private void RefreshData()
