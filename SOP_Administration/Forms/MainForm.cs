@@ -33,5 +33,10 @@ namespace SOP_Administration
             form.LoadData((PatientETO)dataGridView1.Rows[e.RowIndex].DataBoundItem);
             form.ShowDialog();
         }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
     }
 }

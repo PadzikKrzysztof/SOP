@@ -37,6 +37,8 @@
             ColumnSurname = new DataGridViewTextBoxColumn();
             ColumnPESEL = new DataGridViewTextBoxColumn();
             tabControlMain = new TabControl();
+            buttonEdit = new Button();
+            buttonRefresh = new Button();
             tabPagePatients.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -60,6 +62,8 @@
             // 
             flowLayoutPanel2.BorderStyle = BorderStyle.Fixed3D;
             flowLayoutPanel2.Controls.Add(buttonNewPatient);
+            flowLayoutPanel2.Controls.Add(buttonEdit);
+            flowLayoutPanel2.Controls.Add(buttonRefresh);
             flowLayoutPanel2.Dock = DockStyle.Left;
             flowLayoutPanel2.Location = new Point(3, 3);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
@@ -131,6 +135,25 @@
             tabControlMain.Size = new Size(800, 450);
             tabControlMain.TabIndex = 0;
             // 
+            // buttonEdit
+            // 
+            buttonEdit.Location = new Point(3, 38);
+            buttonEdit.Name = "buttonEdit";
+            buttonEdit.Size = new Size(201, 29);
+            buttonEdit.TabIndex = 1;
+            buttonEdit.Text = "Edytuj Pacjenta";
+            buttonEdit.UseVisualStyleBackColor = true;
+            // 
+            // buttonRefresh
+            // 
+            buttonRefresh.Location = new Point(3, 73);
+            buttonRefresh.Name = "buttonRefresh";
+            buttonRefresh.Size = new Size(201, 29);
+            buttonRefresh.TabIndex = 2;
+            buttonRefresh.Text = "Odświerz";
+            buttonRefresh.UseVisualStyleBackColor = true;
+            buttonRefresh.Click += buttonRefresh_Click;
+            // 
             // FormSOP
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -158,5 +181,7 @@
         private DataGridViewTextBoxColumn ColumnName;
         private DataGridViewTextBoxColumn ColumnSurname;
         private DataGridViewTextBoxColumn ColumnPESEL;
+        private Button buttonEdit;
+        private Button buttonRefresh;
     }
 }
