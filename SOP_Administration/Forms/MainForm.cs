@@ -26,5 +26,12 @@ namespace SOP_Administration
             form.ShowDialog();
             RefreshData();
         }
+
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var form = new PatientEditForm();
+            form.LoadData((PatientETO)dataGridView1.Rows[e.RowIndex].DataBoundItem);
+            form.ShowDialog();
+        }
     }
 }

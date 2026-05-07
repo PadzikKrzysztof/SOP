@@ -33,10 +33,10 @@
             buttonNewPatient = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             dataGridView1 = new DataGridView();
-            tabControlMain = new TabControl();
             ColumnName = new DataGridViewTextBoxColumn();
             ColumnSurname = new DataGridViewTextBoxColumn();
             ColumnPESEL = new DataGridViewTextBoxColumn();
+            tabControlMain = new TabControl();
             tabPagePatients.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -95,16 +95,7 @@
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(539, 406);
             dataGridView1.TabIndex = 0;
-            // 
-            // tabControlMain
-            // 
-            tabControlMain.Controls.Add(tabPagePatients);
-            tabControlMain.Dock = DockStyle.Fill;
-            tabControlMain.Location = new Point(0, 0);
-            tabControlMain.Name = "tabControlMain";
-            tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(800, 450);
-            tabControlMain.TabIndex = 0;
+            dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
             // 
             // ColumnName
             // 
@@ -129,6 +120,16 @@
             ColumnPESEL.MinimumWidth = 6;
             ColumnPESEL.Name = "ColumnPESEL";
             ColumnPESEL.Width = 125;
+            // 
+            // tabControlMain
+            // 
+            tabControlMain.Controls.Add(tabPagePatients);
+            tabControlMain.Dock = DockStyle.Fill;
+            tabControlMain.Location = new Point(0, 0);
+            tabControlMain.Name = "tabControlMain";
+            tabControlMain.SelectedIndex = 0;
+            tabControlMain.Size = new Size(800, 450);
+            tabControlMain.TabIndex = 0;
             // 
             // FormSOP
             // 
