@@ -1,5 +1,6 @@
 ﻿using FluentNHibernate.Mapping;
 using SOP_API.DBClasses.Models;
+using System.Security.Cryptography.Xml;
 
 namespace SOP_API.DBClasses.ClassMaps
 {
@@ -10,7 +11,7 @@ namespace SOP_API.DBClasses.ClassMaps
             Id(x => x.ID);
             Map(x => x.Name).Column("Name");
             Map(x => x.Surname).Column("Surname");
-            References(x => x.PaymentInfo).Column("PaymentInfoID");
+            References(x => x.LoginProfile).Column("LoginProfileID");
             Table("Employee");
         }
     }

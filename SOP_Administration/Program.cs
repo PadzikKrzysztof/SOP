@@ -14,6 +14,8 @@ namespace SOP_Administration
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             HttpHandler.Create();
+            HttpHandler.Authorize(SOP_ETOLibrary.SystemRole.None);
+            Thread.Sleep(10000);
             Application.Run(new FormSOP());
         }
     }

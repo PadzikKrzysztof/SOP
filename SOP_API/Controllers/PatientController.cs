@@ -8,70 +8,169 @@ namespace SOP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PatientController : ControllerBase
+    public class PatientController : ControllerBase, IBaseController<PatientETO>
     {
+        [HttpDelete("{ID:int}")]
+        public void Delete(int ID)
+        {
+            var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
+            if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
+            {
+                return;
+            }
+            var session = SessionFactory.SessionFactoryInstance.OpenSession();
+            var transaction = session.BeginTransaction();
+            var entity = session.Get<Patient>(ID);
+            session.Delete(entity);
+            transaction.Commit();
+            session.Close();
+        }
+
         [HttpGet]
         public IEnumerable<PatientETO> Get()
         {
-            var session = SessionFactory.SessionFactoryInstance.OpenSession();
-            session.BeginTransaction();
-            var patients = session.Query<Patient>();
-            var patientETOs = new List<PatientETO>();
-            foreach (var patient in patients)
-            {
-                var patientFiles = session.Query<PatientFile>().Where(x => x.Patient.ID == patient.ID);
-                var patientFileETOs = new List<PatientFileETO>();
-                foreach (var patientFile in patientFiles)
-                {
-                    var labTests = session.Query<LabTest>().Where(x => x.PatientFile.ID == patientFile.ID);
-                    var labTestETOs = new List<LabTestETO>();
-                    foreach (var labTest in labTests)
-                    {
-                        labTestETOs.Add(new LabTestETO 
-                        { 
-                            ID = labTest.ID,
-                            Name = labTest.Name,
-                            Description = labTest.Description,
-                            SpecificData = labTest.SpecificData,
-                        });
-                    }
-                    patientFileETOs.Add(new PatientFileETO 
-                    {
-                        ID = patientFile.ID,
-                        Name = patientFile.Name,
-                        Description = patientFile.Description,
-                        LabTests = labTestETOs
-                    });
+            var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
 
-                }
-                patientETOs.Add(new PatientETO
+            var session = SessionFactory.SessionFactoryInstance.OpenSession();
+            var entities = session.Query<Patient>();
+            var ETOs = new List<PatientETO>();
+            foreach (var entity in entities)
+            {
+                var eto = entity.ToETO();
+                switch (role)
                 {
-                    ID = patient.ID,
-                    Name = patient.Name,
-                    Surname = patient.Surname,
-                    PESEL = patient.PESEL,
-                    PatientFiles = patientFileETOs
-                });
+                    case SystemRole.None:
+                        eto.Name = "";
+                        eto.Surname = "";
+                        eto.PESEL = 0;
+                        eto.LoginProfile.Password = string.Empty;
+                        eto.LoginProfile.Login = string.Empty;
+                        eto.PatientFiles = new List<PatientFileETO>();
+                        break;
+                    case SystemRole.Patient:
+                        foreach (var file in eto.PatientFiles)
+                        {
+                            foreach (var visit in file.Visits)
+                            {
+                                visit.Doctor.Availabilites = new List<AvailabilityETO>();
+                            }
+                        }
+                        break;
+                    case SystemRole.Doctor:
+                    case SystemRole.Director:
+                    case SystemRole.Registration:
+                    case SystemRole.Admin:
+                    default:
+                        break;
+                }
+
+                ETOs.Add(eto);
             }
 
-            return patientETOs;
+            session.Close();
+            return ETOs;
+        }
+
+        [HttpGet("{ID:int}")]
+        public PatientETO Get(int ID)
+        {
+            var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
+            if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
+            {
+                return null;
+            }
+            var session = SessionFactory.SessionFactoryInstance.OpenSession();
+            var entity = session.Get<Patient>(ID);
+            var eto = entity.ToETO();
+            switch (role)
+            {
+                case SystemRole.None:
+                    eto.Name = "";
+                    eto.Surname = "";
+                    eto.PESEL = 0;
+                    eto.LoginProfile.Password = string.Empty;
+                    eto.LoginProfile.Login = string.Empty;
+                    eto.PatientFiles = new List<PatientFileETO>();
+                    break;
+                case SystemRole.Patient:
+                    foreach (var file in eto.PatientFiles)
+                    {
+                        foreach (var visit in file.Visits)
+                        {
+                            visit.Doctor.Availabilites = new List<AvailabilityETO>();
+                        }
+                    }
+                    break;
+                case SystemRole.Doctor:
+                case SystemRole.Director:
+                case SystemRole.Registration:
+                case SystemRole.Admin:
+                default:
+                    break;
+            }
+            session.Close();
+            return eto;
+        }
+
+        [HttpPost]
+        public void Post(PatientETO eto)
+        {
+            var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
+            if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
+            {
+                return;
+            }
+            var session = SessionFactory.SessionFactoryInstance.OpenSession();
+            var transaction = session.BeginTransaction();
+
+            var entity = new Patient();
+            session.Save(entity.FromETO(eto));
+            transaction.Commit();
+            session.Close();
         }
 
         [HttpPut]
         public void Put(PatientETO eto)
         {
+            var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
+            if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
+            {
+                return;
+            }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
 
-            var patient = new Patient
-            {
-                Name = eto.Name,
-                Surname = eto.Surname,
-                PESEL = eto.PESEL
-            };
+            var patient = new Patient();
+            //foreach (var file in eto.PatientFiles)
+            //{
+            //    foreach (var labTest in file.LabTests)
+            //    {
+            //        var labTestEntity = new LabTest().FromETO(labTest);
+            //        //session.Clear();
+            //        session.Merge(labTestEntity);
+            //        session.SaveOrUpdate(labTestEntity);
+            //    }
 
-            session.Save(patient);
+            //    foreach (var visit in file.Visits)
+            //    {
+            //        var visitEntity = new Visit().FromETO(visit);
+            //        var doctorEntity = new Doctor().FromETO(visit.Doctor);
+            //        //session.Clear();
+            //        session.Merge(doctorEntity);
+            //        session.SaveOrUpdate(doctorEntity);
+            //        session.Merge(visitEntity);
+            //        session.SaveOrUpdate(visitEntity);
+            //    }
+
+            //    //session.Clear();
+            //    var patientFile = new PatientFile().FromETO(file);
+            //    session.SaveOrUpdate(patientFile);
+            //}
+
+            //session.Clear();
+            session.SaveOrUpdate(patient.FromETO(eto));
             transaction.Commit();
+            session.Close();
         }
     }
 }

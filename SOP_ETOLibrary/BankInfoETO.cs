@@ -2,7 +2,7 @@
 
 namespace SOP_ETOLibrary
 {
-    public partial class BankInfoETO
+    public partial class BankInfoETO : IETO
     {
         public int ID { get; set; }
         public string BankDetails { get; set; }

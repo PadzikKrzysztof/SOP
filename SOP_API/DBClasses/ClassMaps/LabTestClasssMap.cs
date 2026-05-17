@@ -11,7 +11,6 @@ namespace SOP_API.DBClasses.ClassMaps
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.SpecificData);
-            References(x => x.PatientFile).Column("PatientFileID").LazyLoad();
             Table("LabTest");
         }
     }

@@ -1,3 +1,4 @@
+using SOP_Administration.Colntrols;
 using SOP_Administration.Forms;
 using SOP_Administration.HttpConnection;
 using SOP_Administration.Models;
@@ -9,34 +10,24 @@ namespace SOP_Administration
     {
         public FormSOP()
         {
+            var loginForm = new LoginForm();
+            loginForm.ShowDialog();
+
+            if (!loginForm.isOk)
+            {
+                return;
+            }
+
             InitializeComponent();
-            HttpHandler handler = new HttpHandler();
-            RefreshData();
-        }
 
-        private void RefreshData()
-        {
-            dataGridView1.DataSource = Patient.GetList();
-        }
-
-        //
-        private void buttonNewPatient_Click(object sender, EventArgs e)
-        {
-            var form = new NewPatientForm();
-            form.ShowDialog();
-            RefreshData();
-        }
-
-        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var form = new PatientEditForm();
-            form.LoadData((PatientETO)dataGridView1.Rows[e.RowIndex].DataBoundItem);
-            form.ShowDialog();
-        }
-
-        private void buttonRefresh_Click(object sender, EventArgs e)
-        {
-            RefreshData();
+            if (loginForm.role == SystemRole.Admin 
+                || loginForm.role == SystemRole.Registration)
+            {
+                var patientsListTab = new TabPage();
+                patientsListTab.Text = "Pacjenci";
+                patientsListTab.Controls.Add(new PatientListControl());
+                tabControl.TabPages.Add(patientsListTab);
+            }
         }
     }
 }

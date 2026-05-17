@@ -35,6 +35,8 @@
             textBoxPesel = new TextBox();
             label3 = new Label();
             buttonSave = new Button();
+            textBoxPassword = new TextBox();
+            label4 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -87,7 +89,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(12, 187);
+            buttonSave.Location = new Point(12, 279);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(776, 29);
             buttonSave.TabIndex = 6;
@@ -95,11 +97,29 @@
             buttonSave.UseVisualStyleBackColor = true;
             buttonSave.Click += buttonSave_Click;
             // 
+            // textBoxPassword
+            // 
+            textBoxPassword.Location = new Point(12, 231);
+            textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.Size = new Size(776, 27);
+            textBoxPassword.TabIndex = 8;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 195);
+            label4.Name = "label4";
+            label4.Size = new Size(47, 20);
+            label4.TabIndex = 7;
+            label4.Text = "Hasło";
+            // 
             // NewPatientForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 234);
+            ClientSize = new Size(800, 320);
+            Controls.Add(textBoxPassword);
+            Controls.Add(label4);
             Controls.Add(buttonSave);
             Controls.Add(textBoxPesel);
             Controls.Add(label3);
@@ -122,5 +142,7 @@
         private TextBox textBoxPesel;
         private Label label3;
         private Button buttonSave;
+        private TextBox textBoxPassword;
+        private Label label4;
     }
 }

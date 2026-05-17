@@ -10,8 +10,8 @@ namespace SOP_API.DBClasses.ClassMaps
             Id(x => x.ID);
             Map(x => x.Name);
             Map(x => x.Description);
-            HasMany(x => x.LabTests).Table("LabTest");
-            References(x => x.Patient).Column("PatientID").LazyLoad();
+            HasMany(x => x.LabTests).Table("LabTest").KeyColumn("PatientFileID").Cascade.SaveUpdate();
+            HasMany(x => x.Visits).Table("Visit").KeyColumn("PatientFileID").Cascade.SaveUpdate();
             Table("PatientFile");
         }
     }

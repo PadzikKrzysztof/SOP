@@ -27,5 +27,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-SessionFactory.CreateSessionFactory();
+SessionFactory.CreateSessionFactory("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SOP_DataBase;Integrated Security=True;Connect Timeout=30;Encrypt=False;");
 app.Run();

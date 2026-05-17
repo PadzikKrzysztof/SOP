@@ -3,7 +3,7 @@ using SOP_API.DBClasses.Models;
 
 namespace SOP_API.DBClasses.ClassMaps
 {
-    public class DoctorSpecializationEnumClassMap : ClassMap<DoctorSpecializationEnum>
+    public class DoctorSpecializationEnumClassMap : ClassMap<SpecializationEnum>
     {
         public DoctorSpecializationEnumClassMap()
         {

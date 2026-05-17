@@ -36,15 +36,23 @@ namespace SOP_Administration.Forms
 
                 return;
             }
+
+            var loginETO = new LoginProfileETO
+            {
+                Login = textBoxName.Text + textBoxSurname.Text + textBoxPesel.Text,
+                Password = textBoxPassword.Text,
+            };
+
             var eto = new Patient
             {
                 Name = textBoxName.Text,
                 Surname = textBoxSurname.Text,
                 PESEL = pesel,
-                PatientFiles = new List<PatientFileETO>()
+                PatientFiles = new List<PatientFileETO>(),
+                LoginProfile = loginETO
             };
 
-            Patient.Put(eto);
+            Patient.Post(eto);
             this.Close();
         }
     }
