@@ -8,14 +8,18 @@ namespace SOP_API.DBClasses.Models
         private int _ID;
         private string _name;
         private string _surname;
-        private int _PESEL;
+        private long _PESEL;
+        private string _email;
+        private long _phoneNumber;
         private IList<PatientFile> _patientFiles;
         private LoginProfile _loginProfile;
 
         public virtual int ID { get => _ID; set => _ID = value; }
         public virtual string Name { get => _name; set => _name = value; }
         public virtual string Surname { get => _surname; set => _surname = value; }
-        public virtual int PESEL { get => _PESEL; set => _PESEL = value; }
+        public virtual long PESEL { get => _PESEL; set => _PESEL = value; }
+        public virtual string Email { get => _email; set => _email = value; }
+        public virtual long PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
         public virtual IList<PatientFile> PatientFiles { get => _patientFiles; set => _patientFiles = value; }
         public virtual LoginProfile LoginProfile { get => _loginProfile; set => _loginProfile = value; }
         
@@ -34,6 +38,8 @@ namespace SOP_API.DBClasses.Models
                 Name = Name,
                 Surname = Surname,
                 PESEL = PESEL,
+                Email = Email,
+                PhoneNumber = PhoneNumber,
                 PatientFiles = patientFileETOs,
                 LoginProfile = LoginProfile.ToETO(),
             };
@@ -57,6 +63,8 @@ namespace SOP_API.DBClasses.Models
                 Name = eto.Name,
                 Surname = eto.Surname,
                 PESEL = eto.PESEL,
+                Email = eto.Email,
+                PhoneNumber = eto.PhoneNumber,
                 PatientFiles = patientFiles,
                 LoginProfile = LoginProfile.FromETO(eto.LoginProfile),
             };

@@ -11,17 +11,19 @@ namespace SOP_API.Controllers
     public class LoginProfileController : Controller, IBaseController<LoginProfileETO>
     {
         [HttpDelete("{ID:int}")]
-        public void Delete(int ID)
+        public ActionResult Delete(int ID)
         {
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
             var entity = session.Get<LoginProfile>(ID);
             session.Delete(entity);
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpGet]
-        public IEnumerable<LoginProfileETO> Get()
+        public ActionResult<IEnumerable<LoginProfileETO>> Get()
         {
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var entities = session.Query<LoginProfile>();
@@ -35,16 +37,16 @@ namespace SOP_API.Controllers
         }
 
         [HttpGet("{ID:int}")]
-        public LoginProfileETO Get(int ID)
+        public ActionResult<LoginProfileETO> Get(int ID)
         {
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var entity = session.Get<LoginProfile>(ID);
 
-            return entity.ToETO();
+            return Ok(entity.ToETO());
         }
 
         [HttpPost]
-        public void Post(LoginProfileETO eto)
+        public ActionResult Post(LoginProfileETO eto)
         {
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -52,10 +54,12 @@ namespace SOP_API.Controllers
             var entity = new LoginProfile();
             session.Save(entity.FromETO(eto));
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpPut]
-        public void Put(LoginProfileETO eto)
+        public ActionResult Put(LoginProfileETO eto)
         {
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -63,6 +67,8 @@ namespace SOP_API.Controllers
             var entity = new LoginProfile();
             session.SaveOrUpdate(entity.FromETO(eto));
             transaction.Commit();
+
+            return Ok();
         }
     }
 }

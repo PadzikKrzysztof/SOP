@@ -13,20 +13,39 @@ namespace SOP_Administration
             var loginForm = new LoginForm();
             loginForm.ShowDialog();
 
-            if (!loginForm.isOk)
+            if (!loginForm.IsOk)
             {
                 return;
             }
 
             InitializeComponent();
 
-            if (loginForm.role == SystemRole.Admin 
-                || loginForm.role == SystemRole.Registration)
+            if (loginForm.Role == SystemRole.Admin 
+                || loginForm.Role == SystemRole.Registration)
             {
                 var patientsListTab = new TabPage();
                 patientsListTab.Text = "Pacjenci";
                 patientsListTab.Controls.Add(new PatientListControl());
                 tabControl.TabPages.Add(patientsListTab);
+            }
+
+            if (loginForm.Role == SystemRole.Admin
+                || loginForm.Role == SystemRole.Registration)
+            {
+                var doctorListTab = new TabPage();
+                doctorListTab.Text = "Lekarze";
+                doctorListTab.Controls.Add(new DoctorListControl());
+                tabControl.TabPages.Add(doctorListTab);
+            }
+
+            if (loginForm.Role == SystemRole.Doctor)
+            {
+                var doctorListTab = new TabPage();
+                doctorListTab.Text = $"{loginForm.Doctor.Employee.Name} {loginForm.Doctor.Employee.Surname}";
+                var doctorControl = new DoctorControl();
+                doctorControl.LoadData(loginForm.Doctor);
+                doctorListTab.Controls.Add(new DoctorControl());
+                tabControl.TabPages.Add(doctorListTab);
             }
         }
     }

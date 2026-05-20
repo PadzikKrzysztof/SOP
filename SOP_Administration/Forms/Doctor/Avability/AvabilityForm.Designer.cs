@@ -1,6 +1,6 @@
-﻿namespace SOP_Administration.Forms
+﻿namespace SOP_Administration.Forms.Doctor.Avability
 {
-    partial class EditVisitForm
+    partial class AvabilityForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,49 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dateTimePicker = new DateTimePicker();
-            comboBoxDoctor = new ComboBox();
+            dateTimePickerStart = new DateTimePicker();
+            dateTimePickerEnd = new DateTimePicker();
             label1 = new Label();
             label2 = new Label();
             buttonSave = new Button();
             SuspendLayout();
             // 
-            // dateTimePicker1
+            // dateTimePickerStart
             // 
-            dateTimePicker.Location = new Point(12, 32);
-            dateTimePicker.Name = "dateTimePicker1";
-            dateTimePicker.Size = new Size(250, 27);
-            dateTimePicker.TabIndex = 0;
+            dateTimePickerStart.CustomFormat = "yyyy.MM.dd - HH:mm";
+            dateTimePickerStart.Format = DateTimePickerFormat.Custom;
+            dateTimePickerStart.Location = new Point(12, 32);
+            dateTimePickerStart.Name = "dateTimePickerStart";
+            dateTimePickerStart.Size = new Size(250, 27);
+            dateTimePickerStart.TabIndex = 0;
             // 
-            // comboBox1
+            // dateTimePickerEnd
             // 
-            comboBoxDoctor.FormattingEnabled = true;
-            comboBoxDoctor.Location = new Point(12, 85);
-            comboBoxDoctor.Name = "comboBox1";
-            comboBoxDoctor.Size = new Size(250, 28);
-            comboBoxDoctor.TabIndex = 1;
+            dateTimePickerEnd.CustomFormat = "yyyy.MM.dd - HH:mm";
+            dateTimePickerEnd.Format = DateTimePickerFormat.Custom;
+            dateTimePickerEnd.Location = new Point(12, 85);
+            dateTimePickerEnd.Name = "dateTimePickerEnd";
+            dateTimePickerEnd.Size = new Size(250, 27);
+            dateTimePickerEnd.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(64, 20);
+            label1.Size = new Size(29, 20);
             label1.TabIndex = 2;
-            label1.Text = "Godzina";
+            label1.Text = "Od";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(12, 62);
             label2.Name = "label2";
-            label2.Size = new Size(51, 20);
+            label2.Size = new Size(29, 20);
             label2.TabIndex = 3;
-            label2.Text = "Lekarz";
+            label2.Text = "Do";
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(12, 135);
+            buttonSave.Location = new Point(12, 118);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(250, 29);
             buttonSave.TabIndex = 4;
@@ -78,26 +81,26 @@
             buttonSave.UseVisualStyleBackColor = true;
             buttonSave.Click += buttonSave_Click;
             // 
-            // EditVisitForm
+            // AvabilityForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(305, 176);
+            ClientSize = new Size(281, 175);
             Controls.Add(buttonSave);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(comboBoxDoctor);
-            Controls.Add(dateTimePicker);
-            Name = "EditVisitForm";
-            Text = "Edytuj Wizytę";
+            Controls.Add(dateTimePickerEnd);
+            Controls.Add(dateTimePickerStart);
+            Name = "AvabilityForm";
+            Text = "Dostępność";
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DateTimePicker dateTimePicker;
-        private ComboBox comboBoxDoctor;
+        private DateTimePicker dateTimePickerStart;
+        private DateTimePicker dateTimePickerEnd;
         private Label label1;
         private Label label2;
         private Button buttonSave;

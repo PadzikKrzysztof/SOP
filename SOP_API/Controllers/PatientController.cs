@@ -11,12 +11,12 @@ namespace SOP_API.Controllers
     public class PatientController : ControllerBase, IBaseController<PatientETO>
     {
         [HttpDelete("{ID:int}")]
-        public void Delete(int ID)
+        public ActionResult Delete(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -24,10 +24,12 @@ namespace SOP_API.Controllers
             session.Delete(entity);
             transaction.Commit();
             session.Close();
+
+            return Ok();
         }
 
         [HttpGet]
-        public IEnumerable<PatientETO> Get()
+        public ActionResult<IEnumerable<PatientETO>> Get()
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
 
@@ -68,16 +70,16 @@ namespace SOP_API.Controllers
             }
 
             session.Close();
-            return ETOs;
+            return Ok(ETOs);
         }
 
         [HttpGet("{ID:int}")]
-        public PatientETO Get(int ID)
+        public ActionResult<PatientETO> Get(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return null;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var entity = session.Get<Patient>(ID);
@@ -109,16 +111,16 @@ namespace SOP_API.Controllers
                     break;
             }
             session.Close();
-            return eto;
+            return Ok(eto);
         }
 
         [HttpPost]
-        public void Post(PatientETO eto)
+        public ActionResult Post(PatientETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -127,50 +129,28 @@ namespace SOP_API.Controllers
             session.Save(entity.FromETO(eto));
             transaction.Commit();
             session.Close();
+
+            return Ok();
         }
 
         [HttpPut]
-        public void Put(PatientETO eto)
+        public ActionResult Put(PatientETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
 
             var patient = new Patient();
-            //foreach (var file in eto.PatientFiles)
-            //{
-            //    foreach (var labTest in file.LabTests)
-            //    {
-            //        var labTestEntity = new LabTest().FromETO(labTest);
-            //        //session.Clear();
-            //        session.Merge(labTestEntity);
-            //        session.SaveOrUpdate(labTestEntity);
-            //    }
-
-            //    foreach (var visit in file.Visits)
-            //    {
-            //        var visitEntity = new Visit().FromETO(visit);
-            //        var doctorEntity = new Doctor().FromETO(visit.Doctor);
-            //        //session.Clear();
-            //        session.Merge(doctorEntity);
-            //        session.SaveOrUpdate(doctorEntity);
-            //        session.Merge(visitEntity);
-            //        session.SaveOrUpdate(visitEntity);
-            //    }
-
-            //    //session.Clear();
-            //    var patientFile = new PatientFile().FromETO(file);
-            //    session.SaveOrUpdate(patientFile);
-            //}
-
-            //session.Clear();
+            
             session.SaveOrUpdate(patient.FromETO(eto));
             transaction.Commit();
             session.Close();
+
+            return Ok();
         }
     }
 }

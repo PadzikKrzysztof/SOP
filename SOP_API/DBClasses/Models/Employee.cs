@@ -8,11 +8,15 @@ namespace SOP_API.DBClasses.Models
         private int _ID;
         private string _name;
         private string _surname;
+        private string _email;
+        private long _phoneNumber;
         private LoginProfile _loginProfile;
 
         public virtual int ID { get => _ID; set => _ID = value; }
         public virtual string Name { get => _name; set => _name = value; }
         public virtual string Surname { get => _surname; set => _surname = value; }
+        public virtual string Email { get => _email; set => _email = value; }
+        public virtual long PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
         public virtual LoginProfile LoginProfile { get => _loginProfile; set => _loginProfile = value; }
         public virtual EmployeeETO ToETO()
         {
@@ -21,6 +25,8 @@ namespace SOP_API.DBClasses.Models
                 ID = ID,
                 Name = Name,
                 Surname = Surname,
+                Email = Email,
+                PhoneNumber = PhoneNumber,
                 LoginProfile = LoginProfile.ToETO()
             };
         }
@@ -33,6 +39,8 @@ namespace SOP_API.DBClasses.Models
                 ID = eto.ID,
                 Name = eto.Name,
                 Surname = eto.Surname,
+                Email = eto.Email,
+                PhoneNumber = eto.PhoneNumber,
                 LoginProfile = LoginProfile.FromETO(eto.LoginProfile),
             };
         }

@@ -9,8 +9,8 @@ namespace SOP_API.DBClasses.ClassMaps
         {
             Id(x => x.ID);
             References(x => x.Specialization).Column("Specialization");
-            References(x => x.Employee).Column("EmployeeID");
-            HasMany(x => x.Availabilites).Table("Availability").KeyColumn("DoctorID").Cascade.SaveUpdate();
+            References(x => x.Employee).Column("EmployeeID").Cascade.SaveUpdate();
+            HasMany(x => x.Availabilites).Table("Availability").KeyColumn("DoctorID");
             Table("Doctor");
         }
     }

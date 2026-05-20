@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using SOP_API.DBClasses.Models;
 using SOP_API.DBConnection;
 using SOP_ETOLibrary;
@@ -10,12 +11,12 @@ namespace SOP_API.Controllers
     public class DoctorController : ControllerBase, IBaseController<DoctorETO>
     {
         [HttpDelete("{ID:int}")]
-        public void Delete(int ID)
+        public ActionResult Delete(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director)
             {
-                return;
+                return BadRequest();
             }
 
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
@@ -23,15 +24,17 @@ namespace SOP_API.Controllers
             var entity = session.Get<LoginProfile>(ID);
             session.Delete(entity);
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpGet]
-        public IEnumerable<DoctorETO> Get()
+        public ActionResult<IEnumerable<DoctorETO>> Get()
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.None && role != SystemRole.Doctor && role != SystemRole.Director && role != SystemRole.Admin)
             {
-                return null;
+                return BadRequest();
             }
 
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
@@ -56,27 +59,27 @@ namespace SOP_API.Controllers
         }
 
         [HttpGet("{ID:int}")]
-        public DoctorETO Get(int ID)
+        public ActionResult<DoctorETO> Get(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Doctor && role != SystemRole.Director && role != SystemRole.Admin)
             {
-                return null;
+                return BadRequest();
             }
 
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var entity = session.Get<Doctor>(ID);
 
-            return entity.ToETO();
+            return Ok(entity.ToETO());
         }
 
         [HttpPost]
-        public void Post(DoctorETO eto)
+        public ActionResult Post(DoctorETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director)
             {
-                return;
+                return BadRequest();
             }
 
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
@@ -85,15 +88,17 @@ namespace SOP_API.Controllers
             var entity = new Doctor();
             session.Save(entity.FromETO(eto));
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpPut]
-        public void Put(DoctorETO eto)
+        public ActionResult Put(DoctorETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Doctor && role != SystemRole.Director && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
 
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
@@ -102,6 +107,8 @@ namespace SOP_API.Controllers
             var entity = new Doctor();
             session.SaveOrUpdate(entity.FromETO(eto));
             transaction.Commit();
+
+            return Ok();
         }
     }
 }

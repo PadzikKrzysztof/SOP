@@ -11,7 +11,9 @@ namespace SOP_API.DBClasses.ClassMaps
             Id(x => x.ID);
             Map(x => x.Name).Column("Name");
             Map(x => x.Surname).Column("Surname");
-            References(x => x.LoginProfile).Column("LoginProfileID");
+            Map(x => x.Email).Column("Email");
+            Map(x => x.PhoneNumber).Column("PhoneNumber");
+            References(x => x.LoginProfile).Column("LoginProfileID").Cascade.SaveUpdate();
             Table("Employee");
         }
     }

@@ -11,6 +11,8 @@ namespace SOP_API.DBClasses.ClassMaps
             Map(x => x.Name);
             Map(x => x.Surname);
             Map(x => x.PESEL);
+            Map(x => x.Email);
+            Map(x => x.PhoneNumber);
             HasMany(x => x.PatientFiles).Table("PatientFile").KeyColumn("PatientID").Cascade.SaveUpdate();
             References(x => x.LoginProfile).Column("LoginProfileID");
             Table("Patient");

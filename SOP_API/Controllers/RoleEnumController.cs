@@ -16,27 +16,29 @@ namespace SOP_API.Controllers
     public class RoleEnumController : ControllerBase, IBaseController<RoleEnumETO>
     {
         [HttpDelete("{ID:int}")]
-        public void Delete(int ID)
+        public ActionResult Delete(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
             var entity = session.Get<RoleEnum>(ID);
             session.Delete(entity);
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpGet]
-        public IEnumerable<RoleEnumETO> Get()
+        public ActionResult<IEnumerable<RoleEnumETO>> Get()
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return Enumerable.Empty<RoleEnumETO>();
+                return BadRequest();
             }
             
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
@@ -47,30 +49,32 @@ namespace SOP_API.Controllers
             {
                 resault.Add(item.ToETO());
             }
-            return resault;
+
+            return Ok(resault);
         }
 
         [HttpGet("{ID:int}")]
-        public RoleEnumETO Get(int ID)
+        public ActionResult<RoleEnumETO> Get(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return null;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             session.BeginTransaction();
             var roleEnum = session.Get<RoleEnum>(ID);
-            return roleEnum.ToETO();
+
+            return Ok(roleEnum.ToETO());
         }
 
         [HttpPost]
-        public void Post(RoleEnumETO eto)
+        public ActionResult Post(RoleEnumETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -78,15 +82,16 @@ namespace SOP_API.Controllers
             session.Save(roleEnum.FromETO(eto));
 
             transaction.Commit();
+            return Ok();
         }
 
         [HttpPut]
-        public void Put(RoleEnumETO eto)
+        public ActionResult Put(RoleEnumETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -94,6 +99,8 @@ namespace SOP_API.Controllers
             session.SaveOrUpdate(roleEnum.FromETO(eto));
 
             transaction.Commit();
+
+            return Ok();
         }
     }
 }

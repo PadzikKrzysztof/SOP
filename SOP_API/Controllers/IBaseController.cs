@@ -1,12 +1,14 @@
-﻿namespace SOP_API.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace SOP_API.Controllers
 {
     public interface IBaseController<IETO>
     {
-        public IEnumerable<IETO> Get();
-        public IETO Get(int ID);
-        public void Post(IETO eto);
+        public ActionResult<IEnumerable<IETO>> Get();
+        public ActionResult<IETO> Get(int ID);
+        public ActionResult Post(IETO eto);
 
-        public void Put(IETO eto);
-        public void Delete(int ID);
+        public ActionResult Put(IETO eto);
+        public ActionResult Delete(int ID);
     }
 }

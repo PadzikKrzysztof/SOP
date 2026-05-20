@@ -21,11 +21,16 @@ namespace SOP_Administration.Forms
             InitializeComponent();
         }
 
-        public void LoadData(PatientETO patientETO)
+        public void LoadData(PatientETO patientETO, int patientFileID = 0)
         { 
+            PatientFileID = patientFileID;
             PatientETO = patientETO;
-            //textBoxName.Text = patientETO.Name; 
-            //textBoxDescription.Text = patientETO.De
+            if (PatientFileID != 0)
+            {
+                var patientFile = patientETO.PatientFiles.First(x => x.ID == PatientFileID);
+                textBoxName.Text = patientFile.Name;
+                textBoxDescription.Text = patientFile.Description;
+            }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)

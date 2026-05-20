@@ -27,19 +27,36 @@ namespace SOP_Administration.Forms
 
                 return;
             }
-            int pesel;
+            long pesel;
 
             if (string.IsNullOrEmpty(textBoxPesel.Text) ||
-                !int.TryParse(textBoxPesel.Text, out pesel))
+                !long.TryParse(textBoxPesel.Text, out pesel))
             {
                 MessageBox.Show("Wpisz poprawny Pesel");
 
                 return;
             }
 
+            if (string.IsNullOrEmpty(textBoxEmail.Text))
+            {
+                MessageBox.Show("Wpisz Email");
+
+                return;
+            }
+
+            long phoneNumber;
+
+            if (string.IsNullOrEmpty(textBoxPhone.Text) ||
+                !long.TryParse(textBoxPhone.Text, out phoneNumber))
+            {
+                MessageBox.Show("Wpisz poprawny numer telefonu");
+
+                return;
+            }
+
             var loginETO = new LoginProfileETO
             {
-                Login = textBoxName.Text + textBoxSurname.Text + textBoxPesel.Text,
+                Login = textBoxEmail.Text,
                 Password = textBoxPassword.Text,
             };
 
@@ -48,6 +65,8 @@ namespace SOP_Administration.Forms
                 Name = textBoxName.Text,
                 Surname = textBoxSurname.Text,
                 PESEL = pesel,
+                Email = textBoxEmail.Text,
+                PhoneNumber = phoneNumber,
                 PatientFiles = new List<PatientFileETO>(),
                 LoginProfile = loginETO
             };

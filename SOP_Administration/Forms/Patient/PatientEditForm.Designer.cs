@@ -62,6 +62,10 @@
             buttonRefresh = new Button();
             buttonEditFile = new Button();
             buttonDelete = new Button();
+            label4 = new Label();
+            textBoxEmail = new TextBox();
+            label5 = new Label();
+            textBoxPhone = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)patientFileETOBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewVisit).BeginInit();
@@ -124,7 +128,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(12, 208);
+            buttonSave.Location = new Point(12, 314);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(254, 29);
             buttonSave.TabIndex = 3;
@@ -335,7 +339,7 @@
             // 
             // buttonRefresh
             // 
-            buttonRefresh.Location = new Point(12, 173);
+            buttonRefresh.Location = new Point(12, 279);
             buttonRefresh.Name = "buttonRefresh";
             buttonRefresh.Size = new Size(254, 29);
             buttonRefresh.TabIndex = 18;
@@ -361,7 +365,39 @@
             buttonDelete.TabIndex = 20;
             buttonDelete.Text = "Usuń kartotekę";
             buttonDelete.UseVisualStyleBackColor = true;
-            buttonDelete.Click += buttonDelete_Click;
+            buttonDelete.Click += buttonPatientFileDelete_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 170);
+            label4.Name = "label4";
+            label4.Size = new Size(46, 20);
+            label4.TabIndex = 22;
+            label4.Text = "Email";
+            // 
+            // textBoxEmail
+            // 
+            textBoxEmail.Location = new Point(12, 193);
+            textBoxEmail.Name = "textBoxEmail";
+            textBoxEmail.Size = new Size(254, 27);
+            textBoxEmail.TabIndex = 21;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 223);
+            label5.Name = "label5";
+            label5.Size = new Size(58, 20);
+            label5.TabIndex = 24;
+            label5.Text = "Telefon";
+            // 
+            // textBoxPhone
+            // 
+            textBoxPhone.Location = new Point(12, 246);
+            textBoxPhone.Name = "textBoxPhone";
+            textBoxPhone.Size = new Size(254, 27);
+            textBoxPhone.TabIndex = 23;
             // 
             // PatientEditForm
             // 
@@ -369,6 +405,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1711, 585);
+            Controls.Add(label5);
+            Controls.Add(textBoxPhone);
+            Controls.Add(label4);
+            Controls.Add(textBoxEmail);
             Controls.Add(buttonDelete);
             Controls.Add(buttonEditFile);
             Controls.Add(buttonRefresh);
@@ -438,5 +478,9 @@
         private DataGridViewTextBoxColumn Doctor;
         private Button buttonEditFile;
         private Button buttonDelete;
+        private Label label4;
+        private TextBox textBoxEmail;
+        private Label label5;
+        private TextBox textBoxPhone;
     }
 }

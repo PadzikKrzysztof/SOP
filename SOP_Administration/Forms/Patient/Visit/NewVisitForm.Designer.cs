@@ -37,10 +37,13 @@
             // 
             // dateTimePicker1
             // 
+            dateTimePicker1.CustomFormat = "yyyy.MM.dd - HH:mm";
+            dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.Location = new Point(12, 35);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(377, 27);
             dateTimePicker1.TabIndex = 0;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // comboBox1
             // 

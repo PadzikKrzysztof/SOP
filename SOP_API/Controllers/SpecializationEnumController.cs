@@ -9,30 +9,32 @@ namespace SOP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SpecializationController : ControllerBase, IBaseController<SpecializationEnumETO>
+    public class SpecializationEnumController : ControllerBase, IBaseController<SpecializationEnumETO>
     {
         [HttpDelete("{ID:int}")]
-        public void Delete(int ID)
+        public ActionResult Delete(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
             var entity = session.Get<SpecializationEnum>(ID);
             session.Delete(entity);
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpGet]
-        public IEnumerable<SpecializationEnumETO> Get()
+        public ActionResult<IEnumerable<SpecializationEnumETO>> Get()
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
-            if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
+            if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin && role != SystemRole.Doctor)
             {
-                return Enumerable.Empty<SpecializationEnumETO>();
+                return BadRequest();
             }
 
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
@@ -43,31 +45,32 @@ namespace SOP_API.Controllers
             {
                 resault.Add(item.ToETO());
             }
-            return resault;
+
+            return Ok(resault);
         }
 
         [HttpGet("{ID:int}")]
-        public SpecializationEnumETO Get(int ID)
+        public ActionResult<SpecializationEnumETO> Get(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return null;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             session.BeginTransaction();
             var specializationEnum = session.Get<SpecializationEnum>(ID);
 
-            return specializationEnum.ToETO();
+            return Ok(specializationEnum.ToETO());
         }
 
         [HttpPost]
-        public void Post(SpecializationEnumETO eto)
+        public ActionResult Post(SpecializationEnumETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -75,15 +78,17 @@ namespace SOP_API.Controllers
             session.Save(roleEnum.FromETO(eto));
 
             transaction.Commit();
+
+            return Ok();
         }
 
         [HttpPut]
-        public void Put(SpecializationEnumETO eto)
+        public ActionResult Put(SpecializationEnumETO eto)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.Director && role != SystemRole.Registration && role != SystemRole.Admin)
             {
-                return;
+                return BadRequest();
             }
             var session = SessionFactory.SessionFactoryInstance.OpenSession();
             var transaction = session.BeginTransaction();
@@ -91,6 +96,8 @@ namespace SOP_API.Controllers
             session.SaveOrUpdate(roleEnum.FromETO(eto));
 
             transaction.Commit();
+
+            return Ok();
         }
     }
 }

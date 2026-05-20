@@ -32,7 +32,7 @@ namespace SOP_Administration.Forms
             var visit = patientETO
                 .PatientFiles.First(x => x.ID == PatientFileID)
                 .Visits.First(x => x.ID == VisitID);
-            _doctors = Doctor.GetList();
+            _doctors = Models.Doctor.GetList();
             var index = 0;
             foreach (var doctor in _doctors)
             {
@@ -68,7 +68,9 @@ namespace SOP_Administration.Forms
 
             Patient.Put(PatientETO);
 
+            SendInfo();
             Close();
         }
+        private void SendInfo() { }
     }
 }

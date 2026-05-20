@@ -11,7 +11,7 @@ namespace SOP_API.Controllers
     {
 
         [HttpGet("{ID:int}")]
-        public SystemRole Get(int ID)
+        public ActionResult<SystemRole> Get(int ID)
         {
             var role = RoleParser.Parse(HttpContext.Request.Headers["Role"]);
             if (role != SystemRole.LogedIn)
@@ -46,7 +46,7 @@ namespace SOP_API.Controllers
                 return SystemRole.Doctor;
             }
 
-            return role;
+            return Ok(role);
         }
     }
 }

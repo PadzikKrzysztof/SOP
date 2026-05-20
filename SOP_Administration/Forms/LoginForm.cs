@@ -15,8 +15,9 @@ namespace SOP_Administration.Forms
 {
     public partial class LoginForm : Form
     {
-        public bool isOk = false;
-        public SystemRole role = SystemRole.None;
+        public bool IsOk = false;
+        public SystemRole Role = SystemRole.None;
+        public DoctorETO Doctor = null;
         public LoginForm()
         {
             InitializeComponent();
@@ -28,16 +29,23 @@ namespace SOP_Administration.Forms
             var loginProfile = loginProfiles.FirstOrDefault(x => x.Login == textBoxLogin.Text && x.Password == textBoxPassword.Text);
             if (loginProfile == null)
             {
-                isOk = false;
+                IsOk = false;
 
                 return;
             }
-            isOk = true;
+            IsOk = true;
 
             HttpHandler.Authorize(SystemRole.LogedIn);
-            role = HttpHandler.GetRole(loginProfile.ID);
+            Role = HttpHandler.GetRole(loginProfile.ID);
 
-            HttpHandler.Authorize(role);
+            HttpHandler.Authorize(Role);
+            if (Role == SystemRole.Doctor)
+            {
+                var employee = Employee.GetList().First(x => x.LoginProfile.ID == loginProfile.ID);
+                var doctor = Models.Doctor.GetList().First(x => x.Employee.ID == employee.ID);
+
+                Doctor = doctor;
+            }
 
             this.Close();
         }

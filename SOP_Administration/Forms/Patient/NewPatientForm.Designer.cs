@@ -37,6 +37,10 @@
             buttonSave = new Button();
             textBoxPassword = new TextBox();
             label4 = new Label();
+            textBoxEmail = new TextBox();
+            label5 = new Label();
+            textBoxPhone = new TextBox();
+            label6 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -89,7 +93,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(12, 279);
+            buttonSave.Location = new Point(12, 385);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(776, 29);
             buttonSave.TabIndex = 6;
@@ -99,7 +103,7 @@
             // 
             // textBoxPassword
             // 
-            textBoxPassword.Location = new Point(12, 231);
+            textBoxPassword.Location = new Point(12, 337);
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.Size = new Size(776, 27);
             textBoxPassword.TabIndex = 8;
@@ -107,17 +111,53 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(12, 195);
+            label4.Location = new Point(12, 301);
             label4.Name = "label4";
             label4.Size = new Size(47, 20);
             label4.TabIndex = 7;
             label4.Text = "Hasło";
             // 
+            // textBoxEmail
+            // 
+            textBoxEmail.Location = new Point(12, 218);
+            textBoxEmail.Name = "textBoxEmail";
+            textBoxEmail.Size = new Size(776, 27);
+            textBoxEmail.TabIndex = 10;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 195);
+            label5.Name = "label5";
+            label5.Size = new Size(46, 20);
+            label5.TabIndex = 9;
+            label5.Text = "Email";
+            // 
+            // textBoxPhone
+            // 
+            textBoxPhone.Location = new Point(13, 271);
+            textBoxPhone.Name = "textBoxPhone";
+            textBoxPhone.Size = new Size(776, 27);
+            textBoxPhone.TabIndex = 12;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(13, 248);
+            label6.Name = "label6";
+            label6.Size = new Size(58, 20);
+            label6.TabIndex = 11;
+            label6.Text = "Telefon";
+            // 
             // NewPatientForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 320);
+            ClientSize = new Size(800, 430);
+            Controls.Add(textBoxPhone);
+            Controls.Add(label6);
+            Controls.Add(textBoxEmail);
+            Controls.Add(label5);
             Controls.Add(textBoxPassword);
             Controls.Add(label4);
             Controls.Add(buttonSave);
@@ -144,5 +184,9 @@
         private Button buttonSave;
         private TextBox textBoxPassword;
         private Label label4;
+        private TextBox textBoxEmail;
+        private Label label5;
+        private TextBox textBoxPhone;
+        private Label label6;
     }
 }

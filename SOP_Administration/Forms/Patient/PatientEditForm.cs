@@ -27,6 +27,8 @@ namespace SOP_Administration.Forms
             textBoxName.Text = PatientETO.Name;
             textBoxSurname.Text = PatientETO.Surname;
             textBoxPesel.Text = PatientETO.PESEL.ToString();
+            textBoxEmail.Text = PatientETO.Email;
+            textBoxPhone.Text = PatientETO.PhoneNumber.ToString();
             dataGridView.DataSource = PatientETO.PatientFiles;
             Text = $"Pacjent: {PatientETO.Name} {PatientETO.Surname}";
             Refresh();
@@ -41,7 +43,6 @@ namespace SOP_Administration.Forms
 
                 return;
             }
-
 
             if (string.IsNullOrEmpty(textBoxSurname.Text))
             {
@@ -58,12 +59,31 @@ namespace SOP_Administration.Forms
 
                 return;
             }
+
+            if (string.IsNullOrEmpty(textBoxEmail.Text))
+            {
+                MessageBox.Show("Wpisz Email");
+
+                return;
+            }
+
+            int phone;
+
+            if (string.IsNullOrEmpty(textBoxPhone.Text) ||
+                !int.TryParse(textBoxPhone.Text, out phone))
+            {
+                MessageBox.Show("Wpisz poprawny numer telefonu");
+
+                return;
+            }
             var eto = new Patient
             {
                 ID = PatientETO.ID,
                 Name = textBoxName.Text,
                 Surname = textBoxSurname.Text,
                 PESEL = pesel,
+                PhoneNumber = phone,
+                Email = textBoxEmail.Text,
                 PatientFiles = new List<PatientFileETO>(),
                 LoginProfile = PatientETO.LoginProfile
             };
@@ -85,9 +105,9 @@ namespace SOP_Administration.Forms
         {
             if (dataGridView.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Nie zaznaczono Kartoteki");
                 return;
             }
+
             var patientFile = (PatientFileETO)dataGridView.SelectedRows[0].DataBoundItem;
 
             dataGridViewVisit.DataSource = patientFile.Visits;
@@ -180,10 +200,28 @@ namespace SOP_Administration.Forms
 
         private void buttonEditFile_Click(object sender, EventArgs e)
         {
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Nie zaznaczono Kartoteki");
+                return;
+            }
+            var patientFile = (PatientFileETO)dataGridView.SelectedRows[0].DataBoundItem;
 
+            if (patientFile.Visits.Any())
+            {
+                MessageBox.Show("Kartoteka zawiera wizyty, nie można usunąć");
+
+                return;
+            }
+
+            var form = new PatientFileForm();
+            form.LoadData(PatientETO, patientFile.ID);
+            form.ShowDialog();
+
+            LoadData(Patient.Get(PatientETO.ID));
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void buttonPatientFileDelete_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 0)
             {

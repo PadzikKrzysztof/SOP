@@ -12,4 +12,10 @@
     <ProjectReference Include="..\SOP_ETOLibrary\SOP_ETOLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Colntrols\DoctorControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
